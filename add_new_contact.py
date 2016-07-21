@@ -1,11 +1,10 @@
 # -*- coding: utf-8 -*-
 from selenium import webdriver
-from selenium.webdriver.common.by import By
-from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import Select
 from selenium.common.exceptions import NoSuchElementException
 from selenium.common.exceptions import NoAlertPresentException
-import unittest, time, re
+from selenium.webdriver.common.by import By
+import unittest
 from contact import Contact
 
 
@@ -84,6 +83,7 @@ class AddNewContact(unittest.TestCase):
         driver.find_element_by_name("phone2").send_keys(contact.phone2)
         driver.find_element_by_name("notes").clear()
         driver.find_element_by_name("notes").send_keys(contact.notes)
+        driver.find_element(By.XPATH, ("//input[@value='Enter']")).click()
 
     def return_to_home_page(self, driver):
         driver.find_element_by_link_text("home page").click()
@@ -91,7 +91,7 @@ class AddNewContact(unittest.TestCase):
     def logout(self, driver):
         driver.find_element_by_link_text("Logout").click()
 
-    def add_new_contact(self):
+    def test_add_new_contact(self):
         driver = self.driver
         self.open_home_page(driver)
         self.login(driver, username="admin", password="secret")
@@ -103,12 +103,15 @@ class AddNewContact(unittest.TestCase):
         self.return_to_home_page(driver)
         self.logout(driver)
 
-    def add_new_empty_contact(self):
+    def test_add_new_empty_contact(self):
         driver = self.driver
         self.open_home_page(driver)
         self.login(driver, username="admin", password="secret")
         self.open_contact_page(driver)
-        self.fill_contact_form(driver, Contact(firstname='', middlename='', lastname='', nickname='', title=''))
+        self.fill_contact_form(driver, Contact(firstname='', middlename='', lastname='', nickname='', title='', company='',
+                                               address='', home='', mobile='', email='', homepage='',bday='',
+                                               bmonth='', byear='', work='', fax='', email2='',
+                                               email3='', aday='', amonth='', ayear='', address2='', phone2='', notes=''))
         self.return_to_home_page(driver)
         self.logout(driver)
 
