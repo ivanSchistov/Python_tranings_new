@@ -54,7 +54,7 @@ class AddNewGroup(unittest.TestCase):
     def logout(self, driver):
         driver.find_element_by_link_text("Logout").click()
 
-    def add_new_group(self):
+    def test_add_new_group(self):
         driver = self.driver
         self.open_home_page(driver)
         self.login(driver, username="admin", password="secret")
@@ -64,7 +64,7 @@ class AddNewGroup(unittest.TestCase):
         self.return_group_page(driver)
         self.logout(driver)
 
-    def add_new_empty_group(self):
+    def test_add_new_empty_group(self):
         driver = self.driver
         self.open_home_page(driver)
         self.login(driver, username="admin", password="secret")
