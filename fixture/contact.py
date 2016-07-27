@@ -1,5 +1,6 @@
 from selenium.webdriver.support.ui import Select
 from selenium.webdriver.common.by import By
+
 __author__ = 'ichistov'
 
 class ContactHelper:
@@ -58,6 +59,14 @@ class ContactHelper:
         driver.find_element_by_name("notes").clear()
         driver.find_element_by_name("notes").send_keys(contact.notes)
         driver.find_element(By.XPATH, ("//input[@value='Enter']")).click()
+
+    def delete_first_contact(self):
+        driver = self.app.driver
+        # select first contact
+        driver.find_element_by_name("selected[]").click()
+        # submit delete contact
+        driver.find_element_by_xpath("//input[@value='Delete']").click()
+        driver.switch_to_alert().accept()
 
     def return_to_home_page(self):
         self.return_to_home_page()
