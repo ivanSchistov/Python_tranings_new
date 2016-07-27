@@ -60,6 +60,14 @@ class ContactHelper:
         driver.find_element_by_name("notes").send_keys(contact.notes)
         driver.find_element(By.XPATH, ("//input[@value='Enter']")).click()
 
+    def modify_first_contact(self):
+        driver = self.app.driver
+        # edit first contact
+        driver.find_element_by_xpath("//img[@title='Edit']").click()
+        # submit editing contact
+        driver.find_element_by_name("update").click()
+
+
     def delete_first_contact(self):
         driver = self.app.driver
         # select first contact
