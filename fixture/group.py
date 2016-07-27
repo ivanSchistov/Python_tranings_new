@@ -24,6 +24,19 @@ class GroupHelper:
         driver.find_element_by_name("submit").click()
         self.return_group_page()
 
+    def modify_first_group(self):
+        driver = self.app.driver
+        self.open_group_page()
+        # select first group
+        driver.find_element_by_name("selected[]").click()
+        # submit edit group
+        driver.find_element_by_name("edit").click()
+        # change group name and click update
+        driver.find_element_by_name("group_name").clear()
+        driver.find_element_by_name("group_name").send_keys("test")
+        driver.find_element_by_name("update").click()
+        self.return_group_page()
+
 
     def delete_first_group(self):
         driver = self.app.driver
@@ -33,6 +46,8 @@ class GroupHelper:
         # submit deletion
         driver.find_element_by_name("delete").click()
         self.return_group_page()
+
+
 
     def return_group_page(self):
         driver = self.app.driver
