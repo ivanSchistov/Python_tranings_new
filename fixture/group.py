@@ -9,45 +9,50 @@ class GroupHelper:
         driver = self.app.driver
         driver.find_element_by_link_text("groups").click()
 
+    def change_field_value(self, field_name, text):
+        driver = self.app.driver
+        if text is not None:
+            driver.find_element_by_name(field_name).click()
+            driver.find_element_by_name(field_name).clear()
+            driver.find_element_by_name(field_name).send_keys(text)
+
+    def fill_group_form(self, group):
+        driver = self.app.driver
+        self.change_field_value("group_name", group.name)
+        self.change_field_value("group_header", group.header)
+        self.change_field_value("group_footer", group.footer)
+
     def create(self, group):
         driver = self.app.driver
         self.open_group_page()
         # create new group
         driver.find_element_by_xpath("(//input[@name='new'])[2]").click()
-        # fill group fields
-        driver.find_element_by_name("group_name").clear()
-        driver.find_element_by_name("group_name").send_keys(group.group_name)
-        driver.find_element_by_name("group_header").clear()
-        driver.find_element_by_name("group_header").send_keys(group.header)
-        driver.find_element_by_name("group_footer").clear()
-        driver.find_element_by_name("group_footer").send_keys(group.footer)
+        self.fill_group_form(group)
         driver.find_element_by_name("submit").click()
         self.return_group_page()
 
-    def modify_first_group(self):
+    def select_first_group(self):
+        driver = self.app.driver
+        driver.find_element_by_name("selected[]").click()
+
+    def modify_first_group(self, new_group_data):
         driver = self.app.driver
         self.open_group_page()
-        # select first group
-        driver.find_element_by_name("selected[]").click()
+        self.select_first_group()
         # submit edit group
         driver.find_element_by_name("edit").click()
         # change group name and click update
-        driver.find_element_by_name("group_name").clear()
-        driver.find_element_by_name("group_name").send_keys("test")
+        self.fill_group_form(new_group_data)
         driver.find_element_by_name("update").click()
         self.return_group_page()
-
 
     def delete_first_group(self):
         driver = self.app.driver
         self.open_group_page()
-        # select first group
-        driver.find_element_by_name("selected[]").click()
+        self.select_first_group()
         # submit deletion
         driver.find_element_by_name("delete").click()
         self.return_group_page()
-
-
 
     def return_group_page(self):
         driver = self.app.driver
