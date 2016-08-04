@@ -10,7 +10,9 @@ class ContactHelper:
 
     def open_contact_page(self):
         driver = self.app.driver
-        driver.find_element_by_link_text("add new").click()
+        if not (driver.current_url.endswitch("/edit.php") and len(driver.find_elements(By.XPATH,
+                ("//input[@value='Enter']")))) > 0:
+           driver.find_element_by_link_text("add new").click()
 
     def change_field_value(self, field_name, text):
         driver = self.app.driver
