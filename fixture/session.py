@@ -33,7 +33,6 @@ class SessionHelper:
         if self.is_logged_in():
             self.logout()
 
-
     def ensure_login(self, username, password):
         driver = self.app.driver
         if self.is_logged_in():
