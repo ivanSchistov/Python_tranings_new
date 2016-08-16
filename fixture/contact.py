@@ -51,8 +51,16 @@ class ContactHelper:
         driver.find_element(By.XPATH, ("//input[@value='Enter']")).click()
         self.contact_cache = None
 
-    def modify_first_contact(self):
+    def select_contact_by_index(self, index):
         driver = self.app.driver
+        driver.find_elements_by_name("selected[]")[index].click()
+
+    def modify_first_contact(self):
+        self.modify_contact_by_index(0)
+
+    def modify_contact_by_index(self, index):
+        driver = self.app.driver
+        self.select_contact_by_index(index)
         # edit first contact
         driver.find_element_by_xpath("//img[@title='Edit']").click()
         # submit editing contact
@@ -60,9 +68,12 @@ class ContactHelper:
         self.contact_cache = None
 
     def delete_first_contact(self):
+        self.delete_contact_by_index(0)
+
+    def delete_contact_by_index(self, index):
         driver = self.app.driver
         # select first contact
-        driver.find_element_by_name("selected[]").click()
+        self.select_contact_by_index(index)
         # submit delete contact
         driver.find_element_by_xpath("//input[@value='Delete']").click()
         driver.switch_to_alert().accept()
