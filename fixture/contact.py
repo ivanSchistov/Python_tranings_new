@@ -49,6 +49,7 @@ class ContactHelper:
         driver.change_field_value("phone2", contact.phone2)
         driver.change_field_value("notes", contact.notes)
         driver.find_element(By.XPATH, ("//input[@value='Enter']")).click()
+        self.contact_cache = None
 
     def modify_first_contact(self):
         driver = self.app.driver
@@ -56,7 +57,7 @@ class ContactHelper:
         driver.find_element_by_xpath("//img[@title='Edit']").click()
         # submit editing contact
         driver.find_element_by_name("update").click()
-
+        self.contact_cache = None
 
     def delete_first_contact(self):
         driver = self.app.driver
@@ -65,6 +66,7 @@ class ContactHelper:
         # submit delete contact
         driver.find_element_by_xpath("//input[@value='Delete']").click()
         driver.switch_to_alert().accept()
+        self.contact_cache = None
 
     def return_to_home_page(self):
         self.return_to_home_page()
@@ -75,11 +77,14 @@ class ContactHelper:
         driver = self.app.driver
         return len(driver.find_elements_by_name("selected[]"))
 
+    contact_cache = None
+
     def get_contact_list(self):
-        driver = self.app.driver
-        contacts = []
-        for element in driver.find_elements_by_css_selector("span.contact"):
-            text = element.get_text()
-            id = element.find_element_by_name("selected[]").get_attribute("value")
-            contacts.append(Contact(firstname=text, lastname=text))
-        return contacts
+        if self.contact_cache is None:
+            driver = self.app.driver
+            self.contact_cache = []
+            for element in driver.find_elements_by_css_selector("span.contact"):
+                text = element.get_text()
+                id = element.find_element_by_name("selected[]").get_attribute("value")
+                self.contact_cache.append(Contact(firstname=text, lastname=text))
+        return list(self.contact_cache)
