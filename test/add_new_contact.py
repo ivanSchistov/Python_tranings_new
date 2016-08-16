@@ -19,8 +19,8 @@ def test_add_new_contact(app):
                        bmonth='April', byear='1990', work='123', fax='1456987', email2='dad@gmail.com',
                        email3='dad1@gmail.com', aday='10', amonth='May', ayear='1989', address2='gadf12', phone2='123', notes='Hello!')
     app.create(contact)
+    assert len(old_contacts) + 1 == app.contact.count()
     new_contacts = app.contact.get_contact_list()
-    assert len(old_contacts) + 1 == len(new_contacts)
     old_contacts.append(contact)
     assert sorted(old_contacts, key=Contact.lastname_or_max) == sorted(new_contacts, key=Contact.lastname_or_max)
     app.session.logout()
